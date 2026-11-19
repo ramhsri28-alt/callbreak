@@ -1,0 +1,22 @@
+{
+  "name": "offline-card-game",
+  "version": "1.0.0",
+  "description": "Local-network multiplayer card game server for Android Termux hotspot play",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test_simulation.js && node test_bots_simulation.js"
+  },
+  "keywords": [
+    "card-game",
+    "call-break",
+    "termux",
+    "offline-multiplayer"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.3.0",
+    "ws": "^8.23.0"
+  }
+}

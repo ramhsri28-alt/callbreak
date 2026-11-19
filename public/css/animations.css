@@ -1,0 +1,106 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ANIMATIONS — animations.css
+   CSS keyframes used by animations.js.
+   RULE: ONLY transform and opacity — nothing else.
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Generic fade */
+@keyframes fadeIn  { from { opacity:0 } to { opacity:1 } }
+@keyframes fadeOut { from { opacity:1 } to { opacity:0 } }
+
+/* Slide up for modals / sheets */
+@keyframes slideUp {
+  from { opacity:0; transform: translateY(28px); }
+  to   { opacity:1; transform: translateY(0);    }
+}
+
+/* Card "shake" for illegal tap */
+@keyframes cardShake {
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-5px); }
+  40%,80% { transform: translateX(5px);  }
+}
+.anim-shake { animation: cardShake 0.22s ease-in-out; }
+
+/* Pop scale (bid chip, tricks chip update) */
+@keyframes chipPop {
+  0%   { transform: scale(1);    }
+  40%  { transform: scale(1.35); }
+  100% { transform: scale(1);    }
+}
+.anim-pop { animation: chipPop 0.28s cubic-bezier(0.34,1.56,0.64,1); }
+
+/* Score count-up: just a fade since we do the number in JS */
+@keyframes scoreReveal {
+  from { opacity:0; transform: translateY(6px); }
+  to   { opacity:1; transform: translateY(0);   }
+}
+
+/* Confetti handled via inline style vars + confettiFall in table.css */
+
+/* Dot breathing for empty lobby seats */
+@keyframes breathe {
+  0%,100% { opacity:0.4; } 50% { opacity:0.9; }
+}
+.anim-breathe { animation: breathe 2s ease-in-out infinite; }
+
+/* Result banner slide */
+@keyframes bannerIn {
+  from { opacity:0; transform: translateY(-18px) scale(0.95); }
+  to   { opacity:1; transform: translateY(0)      scale(1);   }
+}
+.anim-banner { animation: bannerIn 0.3s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+/* Win glow flash on trick winner card — opacity overlay only */
+@keyframes winFlash {
+  0%   { opacity:0; }
+  25%  { opacity:1; }
+  100% { opacity:0; }
+}
+
+/* Crown drop for game-end winner */
+@keyframes crownDrop {
+  from { opacity:0; transform: translateY(-20px) scale(0.7); }
+  to   { opacity:1; transform: translateY(0)     scale(1);   }
+}
+
+/* Confetti */
+@keyframes confettiFall {
+  0%   { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(var(--cf-y, 85vh)) rotate(var(--cf-r, 360deg)); opacity: 0; }
+}
+.confetti-piece {
+  position: fixed;
+  top: 0;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  z-index: 200;
+  pointer-events: none;
+  animation: confettiFall var(--cf-dur, 1.4s) var(--cf-delay, 0s) ease-out forwards;
+}
+
+/* Thinking dots animation */
+@keyframes thinkPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.thinking-dots {
+  animation: thinkPulse 1s ease-in-out infinite;
+  font-size: 0.75rem;
+  color: #fbbf24;
+}
+
+/* Prefers-reduced-motion & Lite mode — kill all animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:         0.01ms !important;
+    animation-iteration-count:  1 !important;
+    transition-duration:        0.01ms !important;
+  }
+}
+body.lite-mode *, body.lite-mode *::before, body.lite-mode *::after {
+  animation-duration:         0.01ms !important;
+  animation-iteration-count:  1 !important;
+  transition-duration:        0.01ms !important;
+}

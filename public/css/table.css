@@ -1,0 +1,426 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TABLE LAYOUT — table.css
+   Authentic Wooden Plank Table (Hippo / Comfun Call Break style)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* ── Realistic Wooden Plank Table Surface ── */
+#gameTable {
+  position: fixed;
+  inset: 0;
+  background-color: #cda275;
+  background-image:
+    /* Horizontal wood planks lines */
+    repeating-linear-gradient(0deg,
+      transparent 0px,
+      transparent 76px,
+      rgba(70, 35, 10, 0.45) 77px,
+      rgba(240, 210, 175, 0.25) 78px,
+      transparent 79px),
+    /* Natural organic wood grain streaks */
+    repeating-linear-gradient(90deg,
+      rgba(90, 50, 15, 0.05) 0px,
+      rgba(90, 50, 15, 0.09) 3px,
+      transparent 6px,
+      rgba(245, 220, 185, 0.08) 12px,
+      transparent 18px),
+    /* Base wood gradient with warm lighting */
+    radial-gradient(ellipse at 50% 48%,
+      #deb488 0%,
+      #cda275 55%,
+      #b88a5c 100%);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#gameTable.hidden {
+  display: none !important;
+}
+
+/* ── Top Bar Icons (Top-Left Menu & Top-Right Trophy) ── */
+.table-btn {
+  position: fixed;
+  top: 14px;
+  width: 38px;
+  height: 38px;
+  background: rgba(30, 30, 30, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: transform 0.1s, background 0.15s;
+}
+
+.table-btn:active {
+  transform: scale(0.92);
+  background: rgba(0, 0, 0, 0.65);
+}
+
+#btnMenu {
+  left: 14px;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+#btnTrophy {
+  right: 14px;
+  font-size: 1.25rem;
+}
+
+/* ── Top Bar Round & Trump Indicator ── */
+.table-round-pill {
+  position: fixed;
+  top: 14px;
+  left: 60px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(20, 20, 20, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 5px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.round-badge {
+  color: #fef08a;
+  font-family: var(--font-score);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.trump-badge {
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  border: 1px solid rgba(250, 204, 21, 0.5);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PLAYER POSITIONS (TOP, LEFT, RIGHT, BOTTOM)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.player-seat {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 20;
+}
+
+/* TOP PLAYER */
+#seat-top {
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#seat-top .player-meta {
+  margin-top: 4px;
+}
+
+/* LEFT PLAYER */
+#seat-left {
+  left: 10px;
+  top: 42%;
+  transform: translateY(-50%);
+  align-items: flex-start;
+}
+
+#seat-left .player-meta {
+  margin-top: 6px;
+}
+
+/* RIGHT PLAYER */
+#seat-right {
+  right: 10px;
+  top: 42%;
+  transform: translateY(-50%);
+  align-items: flex-end;
+}
+
+#seat-right .player-meta {
+  margin-top: 6px;
+}
+
+/* BOTTOM PLAYER (SELF) SCORE PILL */
+#seat-bottom {
+  position: fixed;
+  bottom: 122px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 45;
+}
+
+/* Player Name */
+.player-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* Active Turn Glow on Player Name */
+.player-seat.active .player-name {
+  color: #fef08a;
+  text-shadow: 0 0 8px rgba(250, 204, 21, 0.9), 0 1px 3px #000;
+  animation: nameGlow 1.4s infinite alternate;
+}
+
+@keyframes nameGlow {
+  from {
+    opacity: 0.85;
+  }
+
+  to {
+    opacity: 1;
+    text-shadow: 0 0 12px rgba(250, 204, 21, 1), 0 1px 3px #000;
+  }
+}
+
+/* ── Call Break Dual Score Pill [ Won | Bid ] ── */
+.score-pill {
+  display: inline-flex;
+  align-items: center;
+  background: #111b15;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 1px 2px;
+  margin-top: 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-score);
+  font-size: 0.85rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Left: Tricks Won (Green Box) */
+.pill-won {
+  background: #16a34a;
+  color: #ffffff;
+  padding: 3px 6px;
+  border-radius: 4px;
+  min-width: 14px;
+  text-align: center;
+}
+
+/* Right: Target Bid (Gold) */
+.pill-bid {
+  color: #facc15;
+  padding: 3px 7px;
+  min-width: 14px;
+  text-align: center;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CENTER TRICK CROSS AREA
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Deck Zone: Center of table where shuffle + deal originates */
+#deckZone {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(var(--card-w) * 2);
+  height: var(--card-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  z-index: 25;
+  pointer-events: none;
+}
+
+#shuffleLabel {
+  position: absolute;
+  bottom: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fef08a;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+  display: none;
+  z-index: 26;
+}
+
+.shuffle-stack {
+  position: relative;
+  width: var(--card-w);
+  height: var(--card-h);
+  flex-shrink: 0;
+}
+
+#trickZone {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(var(--card-w) * 2.8);
+  height: calc(var(--card-h) * 2.2);
+  z-index: 15;
+}
+
+.trick-slot {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cross layout exactly matching screenshot */
+#ts-top {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#ts-bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#ts-left {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#ts-right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.chip-won {
+  color: #4ade80;
+}
+
+.chip-cards {
+  color: var(--clr-text-muted);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BIDDING BOTTOM SHEET (Clean popup above hand)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+#bidPanel {
+  position: fixed;
+  bottom: 124px;
+  left: 50%;
+  transform: translateX(-50%) translateY(320px);
+  width: 92%;
+  max-width: 420px;
+  background: rgba(18, 28, 22, 0.96);
+  border: 2px solid #eab308;
+  border-radius: 14px;
+  padding: 12px 14px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.85);
+  transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.2s;
+  pointer-events: none;
+  opacity: 0;
+}
+
+#bidPanel.open {
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
+
+.bid-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bid-hint {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.bid-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.bid-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 10px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.1s, transform 0.1s;
+}
+
+.bid-btn:active {
+  background: #eab308;
+  color: #111827;
+  transform: scale(0.94);
+}
+
+/* Turn notice prompt */
+#turnPrompt {
+  position: fixed;
+  bottom: 128px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #fef08a;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  z-index: 44;
+  white-space: nowrap;
+}
+
+/* Settings Slide Panel */
+#settingsPanel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  background: #111c15;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 20px 18px;
+  z-index: 75;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transform: translateX(100%);
+  transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+  overflow-y: auto;
+}
+
+#settingsPanel.open {
+  transform: translateX(0);
+}

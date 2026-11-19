@@ -1,0 +1,42 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESIGN TOKENS — tokens.css
+   Authentic Classic Call Break table (Hippo / Comfun style)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root {
+  /* Warm Natural Wood Table Palette */
+  --wood-base: #ca9f72;
+  --wood-dark: #b88b5c;
+  --wood-grain: rgba(90, 52, 22, 0.12);
+  --wood-highlight: rgba(255, 230, 200, 0.15);
+
+  /* Card Colors */
+  --card-bg: #ffffff;
+  --card-border: #d4cdc5;
+  --suit-red: #d32f2f;
+  --suit-black: #1a1a1a;
+  --card-back-red: #8b181b;
+  --card-back-border: #5c0f11;
+
+  /* Score Pill Colors */
+  --pill-bg: rgba(20, 30, 24, 0.88);
+  --pill-won-bg: #15803d;
+  /* Green box for tricks won */
+  --pill-won-text: #ffffff;
+  --pill-bid-text: #fbbf24;
+  /* Gold number for bid */
+
+  /* Text & Accents */
+  --text-white: #ffffff;
+  --text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  --accent-gold: #f59e0b;
+
+  /* Card Sizing (Landscape & Mobile Responsive) */
+  --card-w: clamp(52px, 8.5vw, 76px);
+  --card-h: calc(var(--card-w) * 1.42);
+  --card-r: 6px;
+  --fan-overlap: clamp(-30px, -4.5vw, -36px);
+
+  /* Tabular font */
+  --font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-score: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}

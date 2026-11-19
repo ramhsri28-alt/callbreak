@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#b88a5c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Call Break — Multiplayer</title>
+
+  <!-- Offline CSS tokens, wood table layout, classic cards -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/table.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+
+<body>
+  <div id="app">
+    <!-- Active Toast Notice -->
+    <div id="toast"></div>
+
+    <!-- Disconnected Pause Banner -->
+    <div id="pauseBanner">⏸ Waiting for player to reconnect…</div>
+
+    <!-- Flying Card container for flight animations -->
+    <div id="flyCard"></div>
+
+    <!-- 1. Join Modal -->
+    <div id="joinModal" class="modal-overlay">
+      <div class="modal-box">
+        <div class="modal-title">
+          <span>Join Call Break</span>
+          <span style="font-size:0.75rem; color:var(--accent-gold);">Local Hotspot</span>
+        </div>
+        <div class="modal-subtitle">
+          Play offline Call Break with friends or smart bots!
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inputPlayerName">Your Name</label>
+          <input type="text" id="inputPlayerName" class="form-input" placeholder="Enter name" maxlength="16"
+            autocomplete="off">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inputRoomId">Room Code</label>
+          <input type="text" id="inputRoomId" class="form-input" value="MAIN" maxlength="8"
+            style="text-transform:uppercase;">
+        </div>
+
+        <button id="btnJoinLobby" class="btn btn-gold btn-full">
+          Enter Game
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. Lobby Modal (Standalone Game Lobby) -->
+    <div id="lobbyModal" class="modal-overlay hidden">
+      <div class="modal-box lobby-box">
+        <div class="modal-title">
+          <span>🃏 Game Lobby</span>
+          <span class="lobby-slot-tag" id="lobbyRoomCode">MAIN</span>
+        </div>
+
+        <!-- Hotspot Share Link Banner for Friends -->
+        <div class="lobby-share-box">
+          <div class="lobby-share-label">Share link with friends on your Hotspot:</div>
+          <div class="lobby-share-row">
+            <span class="lobby-share-url" id="lobbyShareLink">http://...</span>
+            <button class="btn btn-ghost btn-sm" id="btnCopyShareLink" type="button">📋 Copy</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="selectBotDifficulty">Bot Difficulty</label>
+          <select id="selectBotDifficulty" class="form-input">
+            <option value="medium" selected>🤖 Medium (Smart strategy — Default)</option>
+            <option value="easy">🎲 Easy (Casual play)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Players (4 Seats)</label>
+          <div id="lobbyPlayerList" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
+
+        <div id="lobbyWaitingNotice" style="font-size:0.85rem; color:#facc15; text-align:center;">
+          Waiting for Host to start…
+        </div>
+
+        <button id="btnStartGame" class="btn btn-gold btn-full btn-pulse"
+          style="display:none; font-size:1.05rem; padding:13px 0;">
+          Start Call Break
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. Wooden Table Arena -->
+    <main id="gameTable" class="hidden">
+      <!-- Top-Left Menu (✕) & Top-Right Trophy (🏆) Buttons -->
+      <button class="table-btn" id="btnMenu" aria-label="Menu / Exit">✕</button>
+
+      <!-- Round & Trump Indicator (Top Bar next to Menu) -->
+      <div id="tableHeaderRound" class="table-round-pill">
+        <span class="round-badge" id="headerRound">Round 1 / 5</span>
+        <span class="trump-badge" title="Spades is Trump">♠ Trump</span>
+      </div>
+
+      <button class="table-btn" id="btnTrophy" aria-label="Scoreboard">🏆</button>
+
+      <!-- Deck Zone for Shuffle Animation in Center -->
+      <div id="deckZone">
+        <div id="shuffleCards"></div>
+        <div id="shuffleLabel">Shuffling Cards…</div>
+      </div>
+
+      <!-- Center Trick Cross Area -->
+      <div id="trickZone">
+        <div id="ts-top" class="trick-slot"></div>
+        <div id="ts-left" class="trick-slot"></div>
+        <div id="ts-right" class="trick-slot"></div>
+        <div id="ts-bottom" class="trick-slot"></div>
+      </div>
+
+      <!-- TOP PLAYER -->
+      <div id="seat-top" class="player-seat">
+        <div class="opp-deck-fan" id="fan-top"></div>
+        <div class="player-meta">
+          <div class="player-name" id="name-top">Player 3</div>
+          <div class="score-pill">
+            <span class="pill-won" id="won-top">0</span>
+            <span class="pill-bid" id="bid-top">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEFT PLAYER -->
+      <div id="seat-left" class="player-seat">
+        <div class="opp-deck-fan" id="fan-left"></div>
+        <div class="player-meta">
+          <div class="player-name" id="name-left">Player 4</div>
+          <div class="score-pill">
+            <span class="pill-won" id="won-left">0</span>
+            <span class="pill-bid" id="bid-left">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PLAYER -->
+      <div id="seat-right" class="player-seat">
+        <div class="opp-deck-fan" id="fan-right"></div>
+        <div class="player-meta">
+          <div class="player-name" id="name-right">Player 2</div>
+          <div class="score-pill">
+            <span class="pill-won" id="won-right">0</span>
+            <span class="pill-bid" id="bid-right">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM PLAYER (SELF) SCORE PILL -->
+      <div id="seat-bottom">
+        <div class="score-pill">
+          <span class="pill-won" id="won-bottom">0</span>
+          <span class="pill-bid" id="bid-bottom">0</span>
+        </div>
+      </div>
+
+      <!-- Turn Prompt Message -->
+      <div id="turnPrompt"></div>
+
+      <!-- Bidding Bottom Sheet (Above the hand!) -->
+      <div id="bidPanel">
+        <div class="bid-title">
+          <span>Make Your Call</span>
+          <span style="font-size:0.75rem; color:#facc15;">Trump: ♠ Spades</span>
+        </div>
+        <div class="bid-hint">Select how many tricks you will win:</div>
+        <div class="bid-grid" id="bidGrid"></div>
+      </div>
+
+      <!-- Settings Side Panel -->
+      <div id="settingsPanel">
+        <div class="modal-title" style="font-size:1.05rem;">
+          <span>⚙ Settings</span>
+          <span style="font-size:0.75rem; color:var(--accent-gold);">Call Break</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Animation Speed</label>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-ghost speed-btn" data-speed="slow" style="flex:1; padding:6px 0;">Slow</button>
+            <button class="btn btn-ghost speed-btn active" data-speed="normal"
+              style="flex:1; padding:6px 0;">Normal</button>
+            <button class="btn btn-ghost speed-btn" data-speed="fast" style="flex:1; padding:6px 0;">Fast</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Single Tap to Play</label>
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="toggleSingleTap">
+            <span style="font-size:0.85rem;">Play card on 1 tap (skip lift)</span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Sound Effects</label>
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="toggleSound">
+            <span style="font-size:0.85rem;">Card slide & win audio</span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Lite Mode</label>
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="toggleLiteMode">
+            <span style="font-size:0.85rem;">Fast minimal animations</span>
+          </label>
+        </div>
+
+        <div class="form-group" style="margin-top:auto; display:flex; flex-direction:column; gap:8px;">
+          <button class="btn btn-gold btn-full" id="btnRestartGame">
+            🔄 New Game (Shuffle & Deal)
+          </button>
+          <button class="btn btn-ghost btn-full" id="btnLeaveGame">
+            🚪 Return to Lobby
+          </button>
+          <button class="btn btn-ghost btn-full" id="btnCloseSettings">
+            Resume Game
+          </button>
+        </div>
+      </div>
+
+      <!-- 4. User's Hand Fan (Bottom of Table) -->
+      <div id="handZone">
+        <div id="handFan"></div>
+      </div>
+    </main>
+
+    <!-- 5. Scoreboard Modal (Trophy Button Opens This) -->
+    <div id="scoreModal" class="modal-overlay hidden">
+      <div class="modal-box">
+        <div class="modal-title">
+          <span id="scoreModalTitle">Scoreboard</span>
+          <button class="btn btn-ghost" id="btnCloseScoreModal" style="padding:4px 10px; font-size:0.8rem;">✕</button>
+        </div>
+
+        <table class="score-table" id="scoreTable"></table>
+
+        <button id="scoreActionBtn" class="btn btn-gold btn-full" style="margin-top:8px;">
+          Next Round →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/sound.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/client.js"></script>
+</body>
+
+</html>

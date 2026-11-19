@@ -1,0 +1,277 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CARDS — cards.css
+   Authentic Classic Playing Cards (Hippo / Comfun Call Break style)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* ── Base Card ── */
+.card {
+  width: var(--card-w);
+  height: var(--card-h);
+  border-radius: var(--card-r);
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  box-sizing: border-box;
+}
+
+/* ── Card Face (White Surface) ── */
+.card-face {
+  background: #ffffff;
+  border: 1px solid #d1cdc7;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3px 5px;
+  overflow: hidden;
+}
+
+/* Suit Colors: Crimson Red for Hearts/Diamonds, Rich Black for Spades/Clubs */
+.card.suit-H,
+.card.suit-D {
+  color: #dc2626;
+}
+
+.card.suit-S,
+.card.suit-C {
+  color: #111827;
+}
+
+/* Top-Left Corner */
+.card-corner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 14px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.card-corner.top-left {
+  align-self: flex-start;
+}
+
+/* Bottom-Right Corner (Inverted) */
+.card-corner.bottom-right {
+  align-self: flex-end;
+  transform: rotate(180deg);
+}
+
+.card-rank {
+  font-size: clamp(0.82rem, 1.4vw, 1rem);
+  font-weight: 900;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.card-mini-suit {
+  font-size: clamp(9px, 1.3vw, 13px);
+  line-height: 1;
+  margin-top: 1px;
+}
+
+/* Center Illustration / Symbol */
+.card-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.card-center-pip {
+  font-size: clamp(22px, 3.4vw, 32px);
+  line-height: 1;
+}
+
+/* Court Card Royal Crest (J, Q, K) */
+.court-crest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.9;
+}
+
+.court-crest-crown {
+  font-size: clamp(14px, 2.2vw, 20px);
+  line-height: 1;
+}
+
+.court-crest-rank {
+  font-size: clamp(11px, 1.6vw, 15px);
+  font-weight: 900;
+  font-family: var(--font-score);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BURGUNDY RED ORNATE CARD BACK (Matching Screenshot)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.card-back {
+  background: #7a1215;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.card-back::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.18) 0px,
+      rgba(255, 255, 255, 0.18) 1.5px,
+      transparent 1.5px,
+      transparent 7px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.18) 0px,
+      rgba(255, 255, 255, 0.18) 1.5px,
+      transparent 1.5px,
+      transparent 7px
+    );
+}
+
+.card-back-ornament {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 0.75rem;
+  z-index: 1;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   OPPONENT FANNED DECKS (As Seen in Screenshot)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.opp-deck-fan {
+  position: relative;
+  width: var(--card-w);
+  height: var(--card-h);
+}
+
+.opp-deck-fan .card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Left opponent fan */
+#seat-left .opp-deck-fan .card-back:nth-child(1) { transform: rotate(-25deg) translateY(-2px); }
+#seat-left .opp-deck-fan .card-back:nth-child(2) { transform: rotate(-18deg) translateY(-1px); }
+#seat-left .opp-deck-fan .card-back:nth-child(3) { transform: rotate(-10deg); }
+#seat-left .opp-deck-fan .card-back:nth-child(4) { transform: rotate(-2deg); }
+#seat-left .opp-deck-fan .card-back:nth-child(5) { transform: rotate(6deg) translateY(1px); }
+#seat-left .opp-deck-fan .card-back:nth-child(6) { transform: rotate(14deg) translateY(2px); }
+
+/* Top opponent fan */
+#seat-top .opp-deck-fan .card-back:nth-child(1) { transform: rotate(-28deg) translateX(-12px); }
+#seat-top .opp-deck-fan .card-back:nth-child(2) { transform: rotate(-18deg) translateX(-8px); }
+#seat-top .opp-deck-fan .card-back:nth-child(3) { transform: rotate(-8deg) translateX(-4px); }
+#seat-top .opp-deck-fan .card-back:nth-child(4) { transform: rotate(2deg); }
+#seat-top .opp-deck-fan .card-back:nth-child(5) { transform: rotate(12deg) translateX(4px); }
+#seat-top .opp-deck-fan .card-back:nth-child(6) { transform: rotate(22deg) translateX(8px); }
+
+/* Right opponent fan */
+#seat-right .opp-deck-fan .card-back:nth-child(1) { transform: rotate(25deg) translateY(-2px); }
+#seat-right .opp-deck-fan .card-back:nth-child(2) { transform: rotate(18deg) translateY(-1px); }
+#seat-right .opp-deck-fan .card-back:nth-child(3) { transform: rotate(10deg); }
+#seat-right .opp-deck-fan .card-back:nth-child(4) { transform: rotate(2deg); }
+#seat-right .opp-deck-fan .card-back:nth-child(5) { transform: rotate(-6deg) translateY(1px); }
+#seat-right .opp-deck-fan .card-back:nth-child(6) { transform: rotate(-14deg) translateY(2px); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HAND FAN (Bottom of Screen)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+#handZone {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 122px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+  z-index: 50;
+  pointer-events: auto;
+}
+
+#handFan {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  max-width: 100vw;
+  padding: 0 8px;
+}
+
+/* Realistic overlap */
+#handFan .card {
+  margin-left: var(--fan-overlap);
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  transition: transform 0.16s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+#handFan .card:first-child {
+  margin-left: 0;
+}
+
+/* Card States */
+.card.legal {
+  cursor: pointer;
+}
+
+.card.illegal {
+  opacity: 0.45;
+  filter: grayscale(40%);
+  cursor: not-allowed;
+}
+
+/* Lifted on tap */
+.card.lifted {
+  transform: translateY(-20px) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65), 0 0 10px rgba(234, 179, 8, 0.6);
+  border-color: #eab308;
+}
+
+/* Shake illegal */
+@keyframes cardShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.anim-shake {
+  animation: cardShake 0.22s ease-in-out;
+}
+
+/* Flying card element */
+#flyCard {
+  position: fixed;
+  z-index: 300;
+  pointer-events: none;
+  display: none;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+}
